@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form action="login" method="post">
+    <input type="hidden" name="action" value="login">
+    <label for="nombre">Username:</label>
+    <input type="text" id="nombre" name="nombre" required>
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required>
+    <button type="submit">Login</button>
+</form>
+<form action="login" method="post">
+    <input type="hidden" name="action" value="register">
+    <label for="nombreReg">Username:</label>
+    <input type="text" id="nombreReg" name="nombreReg">
+    <label for="passwordReg">Password:</label>
+    <input type="password" id="passwordReg" name="passwordReg">
+    <label for="email">Password:</label>
+    <input type="email" id="email" name="email">
+    <button type="submit">Register</button>
+</form>
+<p th:text = "${message}"></p>
+</body>
+</html>

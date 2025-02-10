@@ -1,0 +1,43 @@
+
+###
+# @no-redirect
+POST http://localhost:8080/auth
+Content-Type: application/json
+
+{
+  "nombre": "oscar",
+  "password": "1234"
+}
+
+###
+GET http://localhost:8080/auth?
+    nombre=usuario1&password=clave123
+
+###
+GET http://localhost:8080/playlist
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c3VhcmlvMSIsImlhdCI6MTczODk0Njc1OCwiZXhwIjoxNzM4OTUwMzU4fQ.eYJHMlEincL-cHGv4bRyDCj3k9EjE2walv0SLG9OlQI
+
+###
+POST http://localhost:8080/playlist
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c3VhcmlvMSIsImlhdCI6MTczODk0Njc1OCwiZXhwIjoxNzM4OTUwMzU4fQ.eYJHMlEincL-cHGv4bRyDCj3k9EjE2walv0SLG9OlQI
+
+{
+  "nombre": "Kyoto",
+  "artista": "Skrillex"
+}
+
+###
+PUT http://localhost:8080/playlist/1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c3VhcmlvMSIsImlhdCI6MTczODk0Njc1OCwiZXhwIjoxNzM4OTUwMzU4fQ.eYJHMlEincL-cHGv4bRyDCj3k9EjE2walv0SLG9OlQI
+
+{
+  "nombre": "Don't Stop Me Now",
+  "artista": "Queen"
+}
+
+###
+DELETE http://localhost:8080/playlist/1
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c3VhcmlvMSIsImlhdCI6MTczODk0Njc1OCwiZXhwIjoxNzM4OTUwMzU4fQ.eYJHMlEincL-cHGv4bRyDCj3k9EjE2walv0SLG9OlQI
+
