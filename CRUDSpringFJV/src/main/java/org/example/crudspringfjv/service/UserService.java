@@ -34,7 +34,7 @@ public class UserService {
     }
 
     public boolean register(String nombre, String password) {
-
+        boolean flag = false;
         User user = new User(nombre, password);
         try {
             user.setPassword(passwordEncoder.createHash(user.getPassword()));
@@ -43,8 +43,11 @@ public class UserService {
         } catch (InvalidKeySpecException e) {
             throw new RuntimeException(e);
         }
-        users.add(user);
-        return true;
+
+        if(users.add(user)){
+            flag=true;
+        }
+        return flag;
     }
 
 

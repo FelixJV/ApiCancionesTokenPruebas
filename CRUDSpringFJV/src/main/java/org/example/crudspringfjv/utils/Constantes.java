@@ -26,6 +26,8 @@ public final class Constantes {
     public static final Object CUENTA_VERIFICADA ="Cuenta verificada";
     public static final Object ERROR_EN_REGISTRO = "Error al registrar";
 
-    public static final Object NOT_FOUND_CANCION = "Canción no encontrada";
-    public static final Object INVALID_TOKEN = "Token inválido o expirado";
+    public static final String NOT_FOUND_CANCION = "Canción no encontrada";
+    public static final String INVALID_TOKEN = "Token inválido o expirado";
+    public static final String AUTH_REQUEST = "Authorization";
+
 }

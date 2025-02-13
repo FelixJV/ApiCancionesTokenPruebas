@@ -21,23 +21,27 @@ public class TokenFilter extends OncePerRequestFilter {
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain ) throws IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         String requestURI = request.getRequestURI();
+
         if (requestURI.contains("/auth/token") || requestURI.contains("/auth/register")) {
             filterChain.doFilter(request, response);
             return;
         }
+
         final String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            filterChain.doFilter(request, response);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Falta el token o el formato es incorrecto");
             return;
         }
+
         String token = authorizationHeader.substring(7);
         try {
             String username = jwtUtils.extractUsername(token);
 
             if (username != null && jwtUtils.validateToken(token, username)) {
+                request.setAttribute("username", username);
                 filterChain.doFilter(request, response);
             } else {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token inválido");
@@ -46,5 +50,6 @@ public class TokenFilter extends OncePerRequestFilter {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token expirado");
         }
     }
-    }
+
+}
 

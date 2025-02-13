@@ -18,26 +18,19 @@ public class TokenController {
     }
 
     @PostMapping()
-    public ResponseEntity<String> register(@RequestBody User user) {
-        boolean isRegistered = userService.register(user.getNombre(), user.getPassword());
-
-        if (isRegistered) {
-            return ResponseEntity.ok("Usuario registrado con éxito");
-        } else {
-            return ResponseEntity.badRequest().body("El usuario ya existe");
-        }
+    public ResponseEntity<Boolean> register(@RequestBody User user) {
+       boolean flag = userService.register(user.getNombre(), user.getPassword());
+        return ResponseEntity.ok(flag);
     }
 
 
     @GetMapping()
     public ResponseEntity<String> login(@RequestParam String nombre, @RequestParam String password) {
         boolean isAuthenticated = userService.login(nombre, password);
-
-        if (isAuthenticated) {
-            String token = jwtUtils.generateToken(nombre);
-            return ResponseEntity.ok(token);
-        } else {
-            return ResponseEntity.status(401).body("Credenciales inválidas");
+        String token = "NoAutorizado";
+        if(isAuthenticated){
+            token = jwtUtils.generateToken(nombre);
         }
+        return ResponseEntity.ok(token);
     }
 }
