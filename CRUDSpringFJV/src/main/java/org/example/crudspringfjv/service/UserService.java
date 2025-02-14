@@ -16,11 +16,13 @@ import java.util.Optional;
 public class UserService {
     private final Users users;
     private final PasswordEncoder passwordEncoder;
+    private final VerificarService verificarService;
 
 
-    public UserService(Users users, PasswordEncoder passwordEncoder) {
+    public UserService(Users users, PasswordEncoder passwordEncoder, VerificarService verificarService) {
         this.users = users;
         this.passwordEncoder = passwordEncoder;
+        this.verificarService = verificarService;
     }
 
     public boolean login(String name, String pass) {
@@ -33,9 +35,11 @@ public class UserService {
         return userOpt.isPresent();
     }
 
-    public boolean register(String nombre, String password) {
-        boolean flag = false;
-        User user = new User(nombre, password);
+    public boolean register(User user) {
+        byte[] salt = new byte[16];
+        SecureRandom sr = new SecureRandom();
+        sr.nextBytes(salt);
+        user.setCodigo(Base64.getUrlEncoder().encodeToString(salt));
         try {
             user.setPassword(passwordEncoder.createHash(user.getPassword()));
         } catch (NoSuchAlgorithmException e) {
@@ -43,12 +47,13 @@ public class UserService {
         } catch (InvalidKeySpecException e) {
             throw new RuntimeException(e);
         }
-
-        if(users.add(user)){
-            flag=true;
-        }
+        boolean flag = users.add(user);
+        if (flag)
+            verificarService.sendMail(user);
         return flag;
     }
-
+    public void verificar(String codigo) {
+        users.verificar(codigo);
+    }
 
 }

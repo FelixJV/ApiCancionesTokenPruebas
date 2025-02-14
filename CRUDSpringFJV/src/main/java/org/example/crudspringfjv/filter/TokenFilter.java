@@ -26,12 +26,13 @@ public class TokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         String requestURI = request.getRequestURI();
 
-        if (requestURI.contains("/auth/token") || requestURI.contains("/auth/register")) {
+        if (requestURI.startsWith("/auth") || requestURI.startsWith("/auth/verificar/")) {
             filterChain.doFilter(request, response);
             return;
         }
 
         final String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+
 
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Falta el token o el formato es incorrecto");

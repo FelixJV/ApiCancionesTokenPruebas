@@ -20,7 +20,7 @@ public class TokenController {
 
     @PostMapping()
     public ResponseEntity<Boolean> register(@RequestBody User user) {
-       boolean flag = userService.register(user.getNombre(), user.getPassword());
+       boolean flag = userService.register(user);
         return ResponseEntity.ok(flag);
     }
 
@@ -28,14 +28,16 @@ public class TokenController {
     @GetMapping()
     public ResponseEntity<LoginResponse> login(@RequestParam String nombre, @RequestParam String password) {
         boolean isAuthenticated = userService.login(nombre, password);
-
+        LoginResponse loginResp = null;
         if (isAuthenticated) {
             String accessToken = jwtUtils.generateToken(nombre);
-            String refreshToken = jwtUtils.generateRefreshToken(nombre); 
-
-            return ResponseEntity.ok(new LoginResponse(accessToken, refreshToken));
+            String refreshToken = jwtUtils.generateRefreshToken(nombre);
+            loginResp = new LoginResponse(accessToken, refreshToken);
         }
-
-        return ResponseEntity.status(401).build();
+        return ResponseEntity.ok(loginResp);
+    }
+    @GetMapping("/verificar/{codigo}")
+    public void activateAccount(@PathVariable String codigo) {
+        userService.verificar(codigo);
     }
 }

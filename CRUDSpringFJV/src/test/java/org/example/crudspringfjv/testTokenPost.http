@@ -1,14 +1,15 @@
 
 ###
-# @no-redirect
 POST http://localhost:8080/auth
 Content-Type: application/json
 
 {
-  "nombre": "oscar",
-  "password": "1234"
+  "nombre": "usuario2",
+  "password": "clave123",
+  "email": "felisucojvps3@gmail.com"
 }
-
+###
+GET http://localhost:8080/verificar/vpC94QUT5bnRN7j8y6p6tA==
 ###
 GET http://localhost:8080/auth?
     nombre=usuario1&password=clave123
