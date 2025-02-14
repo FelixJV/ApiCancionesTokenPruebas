@@ -1,5 +1,6 @@
 package org.example.crudspringfjv.ui.controllers;
 
+import org.example.crudspringfjv.domain.LoginResponse;
 import org.example.crudspringfjv.domain.User;
 import org.example.crudspringfjv.service.UserService;
 import org.example.crudspringfjv.utils.JwtUtils;
@@ -25,12 +26,16 @@ public class TokenController {
 
 
     @GetMapping()
-    public ResponseEntity<String> login(@RequestParam String nombre, @RequestParam String password) {
+    public ResponseEntity<LoginResponse> login(@RequestParam String nombre, @RequestParam String password) {
         boolean isAuthenticated = userService.login(nombre, password);
-        String token = "NoAutorizado";
-        if(isAuthenticated){
-            token = jwtUtils.generateToken(nombre);
+
+        if (isAuthenticated) {
+            String accessToken = jwtUtils.generateToken(nombre);
+            String refreshToken = jwtUtils.generateRefreshToken(nombre); 
+
+            return ResponseEntity.ok(new LoginResponse(accessToken, refreshToken));
         }
-        return ResponseEntity.ok(token);
+
+        return ResponseEntity.status(401).build();
     }
 }

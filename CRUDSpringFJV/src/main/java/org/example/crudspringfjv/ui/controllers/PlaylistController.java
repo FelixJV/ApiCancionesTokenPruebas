@@ -1,10 +1,8 @@
 package org.example.crudspringfjv.ui.controllers;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.example.crudspringfjv.domain.Cancion;
 import org.example.crudspringfjv.service.PlaylistService;
 import org.example.crudspringfjv.utils.Constantes;
-import org.example.crudspringfjv.utils.JwtUtils;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
