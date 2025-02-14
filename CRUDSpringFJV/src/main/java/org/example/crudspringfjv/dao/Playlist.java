@@ -1,5 +1,6 @@
 package org.example.crudspringfjv.dao;
 
+import org.example.crudspringfjv.components.excepciones.SongNotFoundException;
 import org.example.crudspringfjv.domain.Cancion;
 import org.springframework.stereotype.Repository;
 
@@ -31,21 +32,30 @@ public class Playlist {
         return playlist;
     }
 
-    public void agregarCancion(Cancion nuevaCancion) {
-        nuevaCancion.setId(contador);
-        contador ++;
-        playlist.add(nuevaCancion);
+    public void eliminarCancion(int id) {
+        boolean removed = playlist.removeIf(cancion -> cancion.getId() == id);
+        if (!removed) {
+            throw new SongNotFoundException("La canción con ID " + id + " no se encontró.");
+        }
     }
 
-    public void eliminarCancion(int id) {
-        playlist.removeIf(cancion -> cancion.getId() == id);
-    }
     public void update(Cancion cancionUpdated) {
+        boolean found = false;
         for (int i = 0; i < playlist.size(); i++) {
             if (playlist.get(i).getId() == cancionUpdated.getId()) {
                 playlist.set(i, cancionUpdated);
+                found = true;
+                break;
             }
         }
+        if (!found) {
+            throw new SongNotFoundException("La canción con ID " + cancionUpdated.getId() + " no se encontró.");
+        }
+    }
+
+    public Boolean agregarCancion(Cancion cancion) {
+        cancion.setId(contador);
+        return playlist.add(cancion);
     }
 }
 

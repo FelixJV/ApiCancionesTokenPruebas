@@ -14,7 +14,7 @@ public class PlaylistService {
         this.dataBase = dataBase;
     }
     public List<Cancion> getAll(){ return dataBase.obtenerCanciones();}
-    public void add(Cancion cancion){dataBase.agregarCancion(cancion);}
+    public Boolean add(Cancion cancion){return dataBase.agregarCancion(cancion);}
     public void delete(int id){dataBase.eliminarCancion(id);}
     public void update(Cancion cancion){dataBase.update(cancion);
     }

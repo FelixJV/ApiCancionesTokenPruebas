@@ -5,6 +5,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.example.crudspringfjv.components.excepciones.TokenExpiradoException;
+import org.example.crudspringfjv.components.excepciones.TokenInvalidoException;
 import org.example.crudspringfjv.utils.JwtUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
@@ -39,15 +41,14 @@ public class TokenFilter extends OncePerRequestFilter {
         String token = authorizationHeader.substring(7);
         try {
             String username = jwtUtils.extractUsername(token);
-
             if (username != null && jwtUtils.validateToken(token, username)) {
                 request.setAttribute("username", username);
                 filterChain.doFilter(request, response);
             } else {
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token inválido");
+                throw new TokenInvalidoException("El token no es válido.");
             }
         } catch (ExpiredJwtException e) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token expirado");
+            throw new TokenExpiradoException("El token ha expirado.");
         }
     }
 

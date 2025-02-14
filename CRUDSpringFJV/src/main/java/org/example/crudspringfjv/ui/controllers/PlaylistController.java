@@ -41,9 +41,9 @@ public class PlaylistController {
     }
 
     @PostMapping()
-    public ResponseEntity<String> add(@RequestBody Cancion cancion) {
+    public ResponseEntity<Boolean> add(@RequestBody Cancion cancion) {
         playlistService.add(new Cancion(playlistService.getAll().size() + 1, cancion.getNombre(), cancion.getArtista()));
-        return ResponseEntity.ok("Canción agregada exitosamente");
+        return ResponseEntity.ok(true);
     }
 
     @PutMapping("/{id}")

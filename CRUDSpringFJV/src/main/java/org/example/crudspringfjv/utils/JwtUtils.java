@@ -12,7 +12,7 @@ import java.util.Date;
 public class JwtUtils {
     private final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    public String generateToken(String username) {
+    public String generateToken(String username){
         io.jsonwebtoken.JwtBuilder builder = Jwts.builder();
         builder.setSubject(username);
         builder.setIssuedAt(new Date());
@@ -22,20 +22,20 @@ public class JwtUtils {
                 .compact();
     }
 
-    public String extractUsername(String token) {
+    public String extractUsername(String token){
         return Jwts.parserBuilder().setSigningKey(key).build()
                 .parseClaimsJws(token).getBody().getSubject();
     }
 
-    public boolean validateToken(String token, String username) {
+    public boolean validateToken(String token, String username){
         return username.equals(extractUsername(token)) && !isTokenExpired(token);
     }
 
-    private boolean isTokenExpired(String token) {
+    private boolean isTokenExpired(String token){
         return Jwts.parserBuilder().setSigningKey(key).build()
                 .parseClaimsJws(token).getBody().getExpiration().before(new Date());
     }
-    public String generateRefreshToken(String username) {
+    public String generateRefreshToken(String username){
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
