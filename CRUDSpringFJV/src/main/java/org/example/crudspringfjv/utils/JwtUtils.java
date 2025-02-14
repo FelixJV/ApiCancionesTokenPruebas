@@ -35,5 +35,13 @@ public class JwtUtils {
         return Jwts.parserBuilder().setSigningKey(key).build()
                 .parseClaimsJws(token).getBody().getExpiration().before(new Date());
     }
+    public String generateRefreshToken(String username) {
+        return Jwts.builder()
+                .setSubject(username)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 604800000))
+                .signWith(key, SignatureAlgorithm.HS256)
+                .compact();
+    }
 }
 
