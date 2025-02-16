@@ -1,5 +1,6 @@
 package org.example.crudspringfjv.service;
 
+import org.example.crudspringfjv.components.excepciones.UserNoValidadoException;
 import org.example.crudspringfjv.dao.Users;
 import org.example.crudspringfjv.domain.User;
 import org.example.crudspringfjv.components.PasswordEncoder;
@@ -29,7 +30,13 @@ public class UserService {
         List<User> regUsers = users.getUsers();
 
         Optional<User> userOpt = regUsers.stream()
-                .filter(user -> user.getNombre().equals(name) && user.getPassword().equals(pass))
+                .filter(user -> {
+                    try {
+                        return user.getNombre().equals(name) && passwordEncoder.validatePassword(pass, user.getPassword());
+                    } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
+                        throw new UserNoValidadoException("Usuario no valido o existente");
+                    }
+                })
                 .findFirst();
 
         return userOpt.isPresent();

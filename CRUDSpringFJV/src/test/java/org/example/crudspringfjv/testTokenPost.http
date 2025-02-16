@@ -9,19 +9,19 @@ Content-Type: application/json
   "email": "felisucojvps3@gmail.com"
 }
 ###
-GET http://localhost:8080/verificar/vpC94QUT5bnRN7j8y6p6tA==
+GET http://localhost:8080/auth/verificar/QeZqm4ARRMR0iKCdob1E5Q==
 ###
 GET http://localhost:8080/auth?
-    nombre=usuario1&password=clave123
+    nombre=usuario2&password=clave123
 
 ###
 GET http://localhost:8080/playlist
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c3VhcmlvMSIsImlhdCI6MTczODk0Njc1OCwiZXhwIjoxNzM4OTUwMzU4fQ.eYJHMlEincL-cHGv4bRyDCj3k9EjE2walv0SLG9OlQI
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c3VhcmlvMiIsImlhdCI6MTczOTcyNjc5NSwiZXhwIjoxNzM5NzMwMzk1fQ.1F8D3Eubis946iALDZh33sEdO2QdNPJ6FTBg6aeFg_E
 
 ###
 POST http://localhost:8080/playlist
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c3VhcmlvMSIsImlhdCI6MTczODk0Njc1OCwiZXhwIjoxNzM4OTUwMzU4fQ.eYJHMlEincL-cHGv4bRyDCj3k9EjE2walv0SLG9OlQI
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c3VhcmlvMiIsImlhdCI6MTczOTcyNjc5NSwiZXhwIjoxNzM5NzMwMzk1fQ.1F8D3Eubis946iALDZh33sEdO2QdNPJ6FTBg6aeFg_E
 
 {
   "nombre": "Kyoto",
@@ -29,9 +29,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c3VhcmlvMSIsImlhdCI6MTczO
 }
 
 ###
-PUT http://localhost:8080/playlist/1
+PUT http://localhost:8080/playlist/2
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c3VhcmlvMSIsImlhdCI6MTczODk0Njc1OCwiZXhwIjoxNzM4OTUwMzU4fQ.eYJHMlEincL-cHGv4bRyDCj3k9EjE2walv0SLG9OlQI
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c3VhcmlvMiIsImlhdCI6MTczOTcyNjc5NSwiZXhwIjoxNzM5NzMwMzk1fQ.1F8D3Eubis946iALDZh33sEdO2QdNPJ6FTBg6aeFg_E
 
 {
   "nombre": "Don't Stop Me Now",
@@ -40,5 +40,5 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c3VhcmlvMSIsImlhdCI6MTczO
 
 ###
 DELETE http://localhost:8080/playlist/1
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c3VhcmlvMSIsImlhdCI6MTczODk0Njc1OCwiZXhwIjoxNzM4OTUwMzU4fQ.eYJHMlEincL-cHGv4bRyDCj3k9EjE2walv0SLG9OlQI
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c3VhcmlvMiIsImlhdCI6MTczOTcyNjYxOSwiZXhwIjoxNzM5NzMwMjE5fQ.Vvwh1v13Fk0tKis6fDcYc11Emgsosf6BDsTNXARdVjQ
 

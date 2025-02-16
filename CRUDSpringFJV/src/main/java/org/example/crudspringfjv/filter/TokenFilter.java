@@ -26,13 +26,12 @@ public class TokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         String requestURI = request.getRequestURI();
 
-        if (requestURI.startsWith("/auth") || requestURI.startsWith("/auth/verificar/")) {
+        if (requestURI.startsWith("/auth") || requestURI.startsWith("/auth/verificar/") || requestURI.startsWith("/auth/refresh")) {
             filterChain.doFilter(request, response);
             return;
         }
 
         final String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-
 
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Falta el token o el formato es incorrecto");
@@ -42,14 +41,14 @@ public class TokenFilter extends OncePerRequestFilter {
         String token = authorizationHeader.substring(7);
         try {
             String username = jwtUtils.extractUsername(token);
-            if (username != null && jwtUtils.validateToken(token, username)) {
+            if (username != null && jwtUtils.validateToken(token)) {
                 request.setAttribute("username", username);
                 filterChain.doFilter(request, response);
             } else {
-                throw new TokenInvalidoException("El token no es válido.");
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "El token no es válido");
             }
         } catch (ExpiredJwtException e) {
-            throw new TokenExpiradoException("El token ha expirado.");
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "El token ha expirado");
         }
     }
 

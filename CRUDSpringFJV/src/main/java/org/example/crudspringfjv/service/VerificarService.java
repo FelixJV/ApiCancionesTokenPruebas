@@ -20,7 +20,7 @@ public class VerificarService {
                         "<body>" +
                         "<div>" +
                         "<p>Haz click en el enlace para verificarte:</p>" +
-                        "<a href='http://localhost:8080/verificar/" + user.getCodigo() + "'>Verificar cuenta</a>" +
+                        "<a href='http://localhost:8080/auth/verificar/" + user.getCodigo() + "'>Verificar cuenta</a>" +
                         "</div>" +
                         "</body>" +
                         "</html>";

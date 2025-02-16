@@ -27,14 +27,15 @@ public class JwtUtils {
                 .parseClaimsJws(token).getBody().getSubject();
     }
 
-    public boolean validateToken(String token, String username){
-        return username.equals(extractUsername(token)) && !isTokenExpired(token);
+    public boolean validateToken(String token){
+        Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token);
+        return true;
     }
 
-    private boolean isTokenExpired(String token){
-        return Jwts.parserBuilder().setSigningKey(key).build()
-                .parseClaimsJws(token).getBody().getExpiration().before(new Date());
-    }
+
     public String generateRefreshToken(String username){
         return Jwts.builder()
                 .setSubject(username)

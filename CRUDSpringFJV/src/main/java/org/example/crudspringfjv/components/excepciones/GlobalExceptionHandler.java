@@ -27,10 +27,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(DuplicateUserException.class)
-    public ResponseEntity<Map<String, String>> handleDuplicateUserException(DuplicateUserException ex) {
+    @ExceptionHandler(UserNoValidadoException.class)
+    public ResponseEntity<Map<String, String>> handleNotValidateUserException(UserNoValidadoException ex) {
         Map<String, String> errorResponse = new HashMap<>();
-        errorResponse.put("error", "Usuario duplicado");
+        errorResponse.put("error", "Usuario no valido");
         errorResponse.put("message", ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
