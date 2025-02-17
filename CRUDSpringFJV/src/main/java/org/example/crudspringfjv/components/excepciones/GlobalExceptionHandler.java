@@ -10,15 +10,6 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, String>> handleGeneralException(Exception ex) {
-        Map<String, String> errorResponse = new HashMap<>();
-        errorResponse.put("error", "Ha ocurrido un error inesperado");
-        errorResponse.put("message", ex.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-
     @ExceptionHandler(SongNotFoundException.class)
     public ResponseEntity<Map<String, String>> handleSongNotFoundException(SongNotFoundException ex) {
         Map<String, String> errorResponse = new HashMap<>();
