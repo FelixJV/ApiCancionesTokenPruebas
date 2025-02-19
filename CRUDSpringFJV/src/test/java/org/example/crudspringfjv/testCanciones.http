@@ -1,0 +1,31 @@
+###
+GET http://localhost:8080/songs
+Authorization: Bearer {{token}}
+
+###
+GET http://localhost:8080/songs/1
+Authorization: Bearer {{token}}
+
+###
+POST http://localhost:8080/songs?username=admin
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Nirvana - Come As You Are",
+  "artist": "Nirvana"
+}
+
+###
+PUT http://localhost:8080/songs/1?username=admin
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Queen - Bohemian Rhapsody",
+  "artist": "Queen"
+}
+
+###
+DELETE http://localhost:8080/songs/1?username=admin
+Authorization: Bearer {{token}}

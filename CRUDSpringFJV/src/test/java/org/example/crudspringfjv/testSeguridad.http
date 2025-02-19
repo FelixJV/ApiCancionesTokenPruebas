@@ -1,0 +1,13 @@
+###
+POST http://localhost:8080/songs?username=user1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "title": "Imagine",
+  "artist": "John Lennon"
+}
+
+###
+DELETE http://localhost:8080/playlists/1/removeSong/2?username=user1
+Authorization: Bearer {{token}}

@@ -1,0 +1,23 @@
+###
+POST http://localhost:8080/auth/register
+Content-Type: application/json
+
+{
+  "username": "user1",
+  "password": "contraseña"
+}
+
+###
+GET http://localhost:8080/auth/login?username=normal_user&password=contraseña
+
+> {%
+    client.global.set("token", response.body.accessToken);
+%}
+
+###
+POST http://localhost:8080/auth/refresh
+Content-Type: application/json
+
+{
+  "refreshToken": "TOKEN_DEL_LOGIN"
+}

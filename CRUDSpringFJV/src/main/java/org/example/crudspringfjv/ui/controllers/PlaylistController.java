@@ -1,64 +1,54 @@
 package org.example.crudspringfjv.ui.controllers;
 
-import org.example.crudspringfjv.domain.Cancion;
+import org.example.crudspringfjv.domain.Playlist;
 import org.example.crudspringfjv.service.PlaylistService;
-import org.example.crudspringfjv.utils.Constantes;
+import org.example.crudspringfjv.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @RestController
-@RequestMapping(Constantes.PLAYLIST_VIEW)
+@RequestMapping("/playlists")
 public class PlaylistController {
 
     private final PlaylistService playlistService;
+    private final UserService userService;
 
-    public PlaylistController(PlaylistService playlistService) {
+    public PlaylistController(PlaylistService playlistService, UserService userService) {
         this.playlistService = playlistService;
+        this.userService = userService;
     }
 
     @GetMapping()
-    public ResponseEntity<List<Cancion>> getPlaylist() {
-        List<Cancion> playlist = playlistService.getAll();
-        return ResponseEntity.ok(playlist);
+    public ResponseEntity<List<Playlist>> getAllPlaylists() {
+        return ResponseEntity.ok(playlistService.getAll());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Cancion> getSong(@PathVariable Integer id) {
+    @PostMapping("/{playlistId}/addSong/{songId}")
+    public ResponseEntity<String> addSongToPlaylist(
+            @PathVariable int playlistId,
+            @PathVariable int songId) {
 
-        List<Cancion> playlist = playlistService.getAll();
-        Optional<Cancion> song = playlist.stream()
-                .filter(cancion -> Objects.equals(cancion.getId(), id))
-                .findFirst();
-        Cancion filteredCancion = new Cancion();
-        if(song.isPresent()){
-            filteredCancion = song.get();
+        boolean added = playlistService.addSongToPlaylist(playlistId, songId);
+        if (added) {
+            return ResponseEntity.ok("Canción agregada a la playlist.");
+        } else {
+            return ResponseEntity.badRequest().body("No se pudo agregar la canción.");
         }
-            return ResponseEntity.ok(filteredCancion);
     }
 
-    @PostMapping()
-    public ResponseEntity<Boolean> add(@RequestBody Cancion cancion) {
-        playlistService.add(new Cancion(playlistService.getAll().size() + 1, cancion.getNombre(), cancion.getArtista()));
-        return ResponseEntity.ok(true);
-    }
+    @DeleteMapping("/{playlistId}/removeSong/{songId}")
+    public ResponseEntity<String> removeSongFromPlaylist(
+            @PathVariable int playlistId,
+            @PathVariable int songId,
+            @RequestParam String username) {
 
-    @PutMapping("/{id}")
-    public ResponseEntity<String> update(
-            @PathVariable Integer id,
-            @RequestBody Cancion cancion) {
+        if (!userService.isAdmin(username)) {
+            return ResponseEntity.status(403).body("No tienes permisos para eliminar canciones de la playlist.");
+        }
 
-        playlistService.update(new Cancion(id, cancion.getNombre(), cancion.getArtista()));
-        return ResponseEntity.ok("Canción actualizada exitosamente");
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> delete(@PathVariable Integer id) {
-
-        playlistService.delete(id);
-        return ResponseEntity.ok("Canción eliminada exitosamente");
+        playlistService.removeSongFromPlaylist(playlistId, songId, username);
+        return ResponseEntity.ok("Canción eliminada de la playlist.");
     }
 }

@@ -1,0 +1,11 @@
+###
+GET http://localhost:8080/playlists
+Authorization: Bearer {{token}}
+
+###
+POST http://localhost:8080/playlists/1/addSong/2
+Authorization: Bearer {{token}}
+
+###
+DELETE http://localhost:8080/playlists/1/removeSong/2?username=admin
+Authorization: Bearer {{token}}

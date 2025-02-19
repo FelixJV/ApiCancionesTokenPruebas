@@ -105,12 +105,26 @@ public class PasswordEncoder {
      * @return the hex string decoded into a byte array
      */
     public static byte[] fromHex(String hex) {
+        if (!hex.matches("^[0-9A-Fa-f]+$")) {
+            throw new IllegalArgumentException("Formato de hash inválido, contiene caracteres no hexadecimales: " + hex);
+        }
+
+        if (hex.length() % 2 != 0) {
+            throw new IllegalArgumentException("Longitud inválida del hash, debe ser par: " + hex);
+        }
+
         byte[] binary = new byte[hex.length() / 2];
         for (int i = 0; i < binary.length; i++) {
-            binary[i] = (byte) Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16);
+            try {
+                binary[i] = (byte) Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16);
+            } catch (NumberFormatException e) {
+                throw new IllegalArgumentException("Error al convertir hex a bytes en posición " + i + ": " + hex, e);
+            }
         }
         return binary;
     }
+
+
 
     /**
      * Converts a byte array into a hexadecimal string.
